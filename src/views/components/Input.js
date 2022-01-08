@@ -159,7 +159,7 @@ function Input({
     function onInputBlur()
     {
         const tempValue = inputRef.current.value
-        let tempErr = error
+        let tempErr = ""
         if (!tempValue)
         {
             if (required) tempErr = toastConstant.requiredField

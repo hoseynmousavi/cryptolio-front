@@ -1,3 +1,4 @@
+@import "mixin";
 @import "button";
 @import "image-loading";
 @import "image-show";
@@ -38,7 +39,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-button, a, input, textarea, h4, h3, h2, h1, select, video, p, track, label, div, header, footer, section, svg, img, span {
+.body-ios {
+  overflow-y: hidden;
+
+  #outer-root {
+    @include change-view;
+  }
+}
+
+button, a, input, textarea, h4, h3, h2, h1, select, video, p, track, label, div, header, main, footer, section, svg, img, span {
   -webkit-appearance: none;
   box-sizing: border-box;
   padding: 0;
