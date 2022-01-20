@@ -1,69 +1,137 @@
 import axios from "axios"
-import requestErrorHandler from "./requestErrorHandler"
 import urlMaker from "./urlMaker"
+import errorHandler from "./errorHandler"
+import requestDataShareManager from "./requestDataShareManager"
+
+let onGoingReqs = {}
+
+function handleRepeat({reqUrl})
+{
+    return new Promise((resolve, reject) =>
+    {
+        onGoingReqs[reqUrl].count++
+
+        function onDataEvent(event)
+        {
+            window.removeEventListener("dataShare", onDataEvent)
+            const {message: {status, dataReqUrl, data}} = event.detail
+            if (reqUrl === dataReqUrl)
+            {
+                if (status === "OK") resolve(data)
+                else reject(data)
+            }
+        }
+
+        window.addEventListener("dataShare", onDataEvent, {passive: true})
+    })
+}
 
 function get({url, param = "", dontToast, dontCache, cancel, useRefreshToken})
 {
-    const token = useRefreshToken ? localStorage.getItem("refreshToken") : localStorage.getItem("token")
-    let source
-    if (cancel)
+    const reqUrl = urlMaker({url, param})
+    if (onGoingReqs[reqUrl]) return handleRepeat({reqUrl})
+    else
     {
-        const CancelToken = axios.CancelToken
-        source = CancelToken.source()
-        cancel(source)
-    }
-    return axios.get(
-        urlMaker({url, param}),
+        onGoingReqs[reqUrl] = {count: 1}
+        const token = useRefreshToken ? localStorage.getItem("refreshToken") : localStorage.getItem("token")
+        let source
+        if (cancel)
         {
-            headers: token && {[useRefreshToken ? "x-refresh-token" : "Authorization"]: token},
-            cancelToken: source?.token,
-        },
-    )
-        .then(res =>
-        {
-            if (!dontCache) localStorage.setItem(url + "/" + param, JSON.stringify(res.data))
-            return res.data
-        })
-        .catch(err =>
-        {
-            if (err.message === "Network Error" && !dontCache)
+            const CancelToken = axios.CancelToken
+            source = CancelToken.source()
+            cancel(source)
+        }
+        return axios.get(
+            reqUrl,
             {
-                const cacheData = localStorage.getItem(url + "/" + param)
-                if (cacheData) return JSON.parse(cacheData)
-                else return requestErrorHandler({dontToast, err, callback: () => get(arguments[0])})
-            }
-            else return requestErrorHandler({dontToast, err, callback: () => get(arguments[0])})
-        })
-}
-
-function post({url, data, param, progress, cancel, dontToast})
-{
-    const token = localStorage.getItem("token")
-    let source
-    if (cancel)
-    {
-        const CancelToken = axios.CancelToken
-        source = CancelToken.source()
-        cancel(source)
+                headers: token && {[useRefreshToken ? "x-refresh-token" : "Authorization"]: token},
+                cancelToken: source?.token,
+            },
+        )
+            .then(res =>
+            {
+                const output = res.data
+                if (onGoingReqs[reqUrl].count > 1) requestDataShareManager.dataShare({message: {status: "OK", dataReqUrl: reqUrl, data: output}})
+                delete onGoingReqs[reqUrl]
+                if (!dontCache) localStorage.setItem(url + "/" + param, JSON.stringify(output))
+                return output
+            })
+            .catch(err =>
+            {
+                if (err.message === "Network Error" && !dontCache)
+                {
+                    const cacheData = localStorage.getItem(url + "/" + param)
+                    if (cacheData)
+                    {
+                        const output = JSON.parse(cacheData)
+                        if (onGoingReqs[reqUrl].count > 1) requestDataShareManager.dataShare({message: {status: "OK", dataReqUrl: reqUrl, data: output}})
+                        delete onGoingReqs[reqUrl]
+                        return output
+                    }
+                    else return errorHandler({dontToast, err, onGoingReqs, reqUrl, callback: () => get(arguments[0])})
+                }
+                else return errorHandler({dontToast, err, onGoingReqs, reqUrl, callback: () => get(arguments[0])})
+            })
     }
-    return axios.post(
-        urlMaker({url, param}),
-        data,
-        {
-            cancelToken: source ? source.token : undefined,
-            headers: token && {"Authorization": token},
-            onUploadProgress: e => progress && progress(e),
-        },
-    )
-        .then(res => res.data)
-        .catch(err => requestErrorHandler({dontToast, err, callback: () => post(arguments[0])}))
 }
 
-function put({url, data, param, progress, dontToast})
+function post({url, data, param = "", progress, cache, cancel, dontToast, useRefreshToken})
 {
+    const reqUrl = urlMaker({url, param})
+    if (onGoingReqs[reqUrl]) return handleRepeat({reqUrl})
+    else
+    {
+        onGoingReqs[reqUrl] = {count: 1}
+        const token = useRefreshToken ? localStorage.getItem("refreshToken") : localStorage.getItem("token")
+        let source
+        if (cancel)
+        {
+            const CancelToken = axios.CancelToken
+            source = CancelToken.source()
+            cancel(source)
+        }
+        return axios.post(
+            reqUrl,
+            data,
+            {
+                headers: token && {[useRefreshToken ? "refresh-token" : "Authorization"]: token},
+                cancelToken: source?.token,
+                onUploadProgress: e => progress && progress(e),
+            },
+        )
+            .then(res =>
+            {
+                const output = res.data
+                if (onGoingReqs[reqUrl].count > 1) requestDataShareManager.dataShare({message: {status: "OK", dataReqUrl: reqUrl, data: output}})
+                delete onGoingReqs[reqUrl]
+                if (cache) localStorage.setItem(url + "/" + param, JSON.stringify(output))
+                return output
+            })
+            .catch(err =>
+            {
+                if (err.message === "Network Error" && cache)
+                {
+                    const cacheData = localStorage.getItem(url + "/" + param)
+                    if (cacheData)
+                    {
+                        const output = JSON.parse(cacheData)
+                        if (onGoingReqs[reqUrl].count > 1) requestDataShareManager.dataShare({message: {status: "OK", dataReqUrl: reqUrl, data: output}})
+                        delete onGoingReqs[reqUrl]
+                        return output
+                    }
+                    else return errorHandler({dontToast, err, onGoingReqs, reqUrl, callback: () => post(arguments[0])})
+                }
+                else return errorHandler({dontToast, err, onGoingReqs, reqUrl, callback: () => post(arguments[0])})
+            })
+    }
+}
+
+function put({url, data, param = "", progress, dontToast})
+{
+    const reqUrl = urlMaker({url, param})
     const token = localStorage.getItem("token")
     return axios.put(
-        urlMaker({url, param}),
+        reqUrl,
         data,
         {
             headers: {"Authorization": token},
@@ -71,14 +139,15 @@ function put({url, data, param, progress, dontToast})
         },
     )
         .then(res => res.data)
-        .catch(err => requestErrorHandler({dontToast, err, callback: () => put(arguments[0])}))
+        .catch(err => errorHandler({dontToast, err, reqUrl, callback: () => put(arguments[0])}))
 }
 
-function patch({url, data, param, progress, dontToast})
+function patch({url, data, param = "", progress, dontToast})
 {
+    const reqUrl = urlMaker({url, param})
     const token = localStorage.getItem("token")
     return axios.patch(
-        urlMaker({url, param}),
+        reqUrl,
         data,
         {
             headers: {"Authorization": token},
@@ -86,21 +155,22 @@ function patch({url, data, param, progress, dontToast})
         },
     )
         .then(res => res.data)
-        .catch(err => requestErrorHandler({dontToast, err, callback: () => patch(arguments[0])}))
+        .catch(err => errorHandler({dontToast, err, reqUrl, callback: () => patch(arguments[0])}))
 }
 
-function del({url, data, param, dontToast})
+function del({url, data, param = "", dontToast})
 {
+    const reqUrl = urlMaker({url, param})
     const token = localStorage.getItem("token")
     return axios.delete(
-        urlMaker({url, param}),
+        reqUrl,
         {
             headers: {"Authorization": token},
             data,
         },
     )
         .then(res => res.data)
-        .catch(err => requestErrorHandler({dontToast, err, callback: () => del(arguments[0])}))
+        .catch(err => errorHandler({dontToast, err, reqUrl, callback: () => del(arguments[0])}))
 }
 
 const request = {
