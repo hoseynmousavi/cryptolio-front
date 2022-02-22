@@ -1,6 +1,7 @@
 function showNumber(number, fixed = 9)
 {
-    return +number.toFixed(fixed)
+    if (number) return +number.toFixed(fixed)
+    else return number
 }
 
 export default showNumber

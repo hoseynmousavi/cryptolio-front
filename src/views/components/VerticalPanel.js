@@ -1,14 +1,12 @@
-import {useContext, useLayoutEffect, useRef} from "react"
+import {useLayoutEffect, useRef} from "react"
 import popOnPopState from "../../helpers/popOnPopState"
 import goBack from "../../helpers/goBack"
 import checkParentClass from "../../helpers/checkParentClass"
-import {ThemeContext} from "../../context/theme/ThemeReducer"
 import changeBodyOverflow from "../../helpers/changeBodyOverflow"
 import onResize from "../../helpers/onResize"
 
 function VerticalPanel({children, className, close, statusBarColor, dontPush})
 {
-    const {state: {theme}} = useContext(ThemeContext)
     let gesture = useRef(false)
     let maxHeight = useRef(0)
     let posY = useRef(0)
