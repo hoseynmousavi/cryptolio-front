@@ -1,21 +1,16 @@
 import {createContext, useEffect, useReducer} from "react"
 import logoutManager from "../../helpers/logoutManager"
 import {LOGOUT} from "../auth/AuthTypes"
-import {ADD_MY_EXCHANGE, DELETE_MY_EXCHANGE, GET_EXCHANGE_DATA, GET_MY_EXCHANGES, GET_SUPPORTED_EXCHANGES, SELECT_EXCHANGE} from "./ExchangeTypes"
+import {ADD_MY_EXCHANGE, DELETE_MY_EXCHANGE, GET_EXCHANGES_DATA, SELECT_EXCHANGE} from "./ExchangeTypes"
 import ExchangeActions from "./ExchangeActions"
 
 export const ExchangeContext = createContext(null)
 
 const initialState = {
-    myExchanges: {
-        list: {},
-        selectedExchange: null,
-        getDone: false,
-    },
-    supportedExchanges: {
-        list: {},
-        getDone: false,
-    },
+    exchanges: [],
+    userExchanges: {},
+    getDone: false,
+    selectedExchange: null,
 }
 
 const init = () => initialState
@@ -24,21 +19,19 @@ function reducer(state, action)
 {
     switch (action.type)
     {
-        case GET_MY_EXCHANGES:
+        case GET_EXCHANGES_DATA:
         {
-            const {exchanges} = action.payload
-            const exchangeList = exchanges.reduce((sum, item) => ({...sum, [item._id]: item}), {})
-            const selectedExchange = state.myExchanges.selectedExchange && exchangeList[state.myExchanges.selectedExchange] ? state.myExchanges.selectedExchange : exchanges[0]?._id || null
+            const {exchanges, user_exchanges} = action.payload
+            const userExchanges = user_exchanges.reduce((sum, item) => ({...sum, [item._id]: item}), {})
+            const selectedExchange = userExchanges[state.selectedExchange] ? state.selectedExchange : null
             if (selectedExchange) localStorage.setItem("selectedExchange", selectedExchange)
             else localStorage.removeItem("selectedExchange")
             return {
                 ...state,
-                myExchanges: {
-                    ...state.myExchanges,
-                    list: exchangeList,
-                    selectedExchange,
-                    getDone: true,
-                },
+                exchanges,
+                userExchanges,
+                getDone: true,
+                selectedExchange,
             }
         }
         case SELECT_EXCHANGE:
@@ -48,74 +41,33 @@ function reducer(state, action)
             else localStorage.removeItem("selectedExchange")
             return {
                 ...state,
-                myExchanges: {
-                    ...state.myExchanges,
-                    selectedExchange,
-                },
+                selectedExchange,
             }
         }
         case ADD_MY_EXCHANGE:
         {
             const {addedExchange} = action.payload
-            const selectedExchange = addedExchange._id
-            if (selectedExchange) localStorage.setItem("selectedExchange", selectedExchange)
-            else localStorage.removeItem("selectedExchange")
             return {
                 ...state,
-                myExchanges: {
-                    ...state.myExchanges,
-                    list: {...state.myExchanges.list, [addedExchange._id]: addedExchange},
-                    selectedExchange,
+                userExchanges: {
+                    ...state.userExchanges,
+                    [addedExchange._id]: addedExchange,
                 },
+                selectedExchange: addedExchange._id,
             }
         }
         case DELETE_MY_EXCHANGE:
         {
             const {userExchangeId} = action.payload
-            const exchangeList = {...state.myExchanges.list}
-            delete exchangeList[userExchangeId]
-            const selectedExchange = state.myExchanges.selectedExchange && exchangeList[state.myExchanges.selectedExchange] ? state.myExchanges.selectedExchange : Object.values(exchangeList)[0]?._id || null
+            const userExchanges = {...state.userExchanges}
+            delete userExchanges[userExchangeId]
+            const selectedExchange = userExchanges[state.selectedExchange] ? state.selectedExchange : null
             if (selectedExchange) localStorage.setItem("selectedExchange", selectedExchange)
             else localStorage.removeItem("selectedExchange")
             return {
                 ...state,
-                myExchanges: {
-                    ...state.myExchanges,
-                    list: exchangeList,
-                    selectedExchange,
-                },
-            }
-        }
-        case GET_EXCHANGE_DATA:
-        {
-            const {userExchangeId, data: {accounts, prices, allBalance, allProfitOrShit, allProfitOrShitPercentTotal}} = action.payload
-            return {
-                ...state,
-                myExchanges: {
-                    ...state.myExchanges,
-                    list: {
-                        ...state.myExchanges.list,
-                        [userExchangeId]: {
-                            ...state.myExchanges.list[userExchangeId],
-                            data: {
-                                ...state.myExchanges.list[userExchangeId].data,
-                                accounts, prices, allBalance, allProfitOrShit, allProfitOrShitPercentTotal,
-                                getDone: true,
-                            },
-                        },
-                    },
-                },
-            }
-        }
-        case GET_SUPPORTED_EXCHANGES:
-        {
-            const {exchanges} = action.payload
-            return {
-                ...state,
-                supportedExchanges: {
-                    list: exchanges.reduce((sum, item) => ({...sum, [item._id]: item}), {}),
-                    getDone: true,
-                },
+                userExchanges,
+                selectedExchange,
             }
         }
         case LOGOUT:
@@ -137,8 +89,6 @@ function ExchangeProvider({children})
     {
         const selectedExchange = localStorage.getItem("selectedExchange")
         if (selectedExchange && selectedExchange !== "null") ExchangeActions.selectExchange({dispatch, selectedExchange})
-
-        ExchangeActions.getSupportedExchanges({dispatch})
 
         logoutManager.setLogOut({callBack: () => dispatch({type: LOGOUT})})
     }, [])

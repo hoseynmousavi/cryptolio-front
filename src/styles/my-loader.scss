@@ -2,8 +2,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fade-in-long ease 0.4s;
+  animation: fade-in-long ease 0.2s;
   min-height: var(--full-height);
+
+  &.fixed {
+    z-index: var(--modal-z-index);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--first-background-color);
+  }
 }
 
 .ios-loader {

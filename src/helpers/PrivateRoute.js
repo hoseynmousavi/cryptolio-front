@@ -21,7 +21,7 @@ function PrivateRoute({ifNotLogin, dontChange, path, render, ...props})
             else return <Redirect to={urlConstant.login}/>
         }
         // eslint-disable-next-line
-    }, dontChange ? [] : [user])
+    }, dontChange ? [render] : [user, render])
 }
 
 export default PrivateRoute

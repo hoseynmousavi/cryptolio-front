@@ -1,0 +1,94 @@
+.portfolio-nav {
+  margin-top: calc(2 * var(--mobile-second-solid-padding));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portfolio-add {
+  color: var(--first-color);
+  font-size: var(--large-font);
+  font-family: "my-font-bold", serif;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  cursor: pointer;
+  border-radius: var(--first-radius);
+}
+
+.portfolio-add-icon {
+  font-size: var(--huge-font);
+  margin-left: 8px;
+  margin-top: 4px;
+}
+
+.portfolio-nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.portfolio-nav-item {
+  padding: 8px 12px;
+  margin-left: 16px;
+  border-radius: var(--first-radius);
+  font-size: var(--title-font);
+  color: var(--disable-bg-color);
+  cursor: pointer;
+  transition: background-color ease 0.2s, color ease 0.2s;
+
+  &.selected {
+    color: var(--first-text-color);
+    background-color: var(--first-background-color);
+  }
+}
+
+.portfolio-section {
+  display: flex;
+}
+
+.portfolio-transfer-row {
+  border-bottom: 1px solid var(--second-background-color);
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+
+  &.title {
+    font-family: "my-font-bold", serif;
+    font-size: var(--title-font);
+  }
+}
+
+.portfolio-transfer-row-item {
+  width: 19%;
+  flex-grow: 1;
+  text-align: right;
+
+  &.bigger {
+    width: 24%;
+  }
+
+  &.green {
+    color: var(--toast-success-text);
+  }
+
+  &.red {
+    color: var(--toast-fail-text);
+  }
+}
+
+.portfolio-delete {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  font-size: var(--title-font);
+  margin-top: var(--mobile-second-solid-padding);
+  border-radius: var(--second-radius);
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.portfolio-delete-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}

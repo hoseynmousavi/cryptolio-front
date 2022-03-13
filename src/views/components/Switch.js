@@ -2,13 +2,13 @@ import React, {useEffect, useRef, useState} from "react"
 import checkViewPort from "../../helpers/checkViewPort"
 import Resize from "../../helpers/Resize"
 
-function Switch({children})
+function Switch({children, notPage, className})
 {
     const [state, setState] = useState({showChildIndex: null, location: null})
     const {showChildIndex, location} = state
     const currentLocation = useRef(null)
     const currentIndex = useRef(null)
-    const contRef = document.getElementById("outer-root")
+    const contRef = useRef(notPage ? null : document.getElementById("outer-root"))
     const innerContRef = document.getElementById("root")
     const {clientHeight, clientWidth} = Resize()
     const root = clientHeight && checkViewPort() ? document.getElementById("root") : window
@@ -67,7 +67,7 @@ function Switch({children})
                 {
                     currentIndex.current = showChildIndexTemp
                     const scroll = getScroll(type)
-                    if (clientWidth <= 480)
+                    if (clientWidth <= 480 && !notPage)
                     {
                         if (type === "popstate") mobileBack(showChildIndexTemp, locationTemp, scroll)
                         else mobileForward(showChildIndexTemp, locationTemp, scroll)
@@ -94,13 +94,13 @@ function Switch({children})
 
     function desktopRoute(showChildIndexTemp, locationTemp, scroll)
     {
-        if (contRef.animate)
+        if (contRef.current.animate)
         {
-            contRef.animate([{opacity: 1}, {opacity: 0}, {opacity: 0}], {duration: 350, easing: "ease-in"})
+            contRef.current.animate([{opacity: 1}, {opacity: 0}, {opacity: 0}], {duration: 350, easing: "ease-in"})
             setTimeout(() =>
             {
                 setState({showChildIndex: showChildIndexTemp, location: locationTemp})
-                contRef.animate([{opacity: 0}, {opacity: 1}], {duration: 175, easing: "ease-out"})
+                contRef.current.animate([{opacity: 0}, {opacity: 1}], {duration: 175, easing: "ease-out"})
                 setTimeout(() => root.scrollTo({top: scroll}), 0)
             }, 195)
         }
@@ -124,8 +124,8 @@ function Switch({children})
             {
                 translate = translate + step <= 30 ? translate + step : 30
                 step = translate + step + 1 <= 30 ? step + 1 : step
-                contRef.style.transform = `translate3d(${translate}%, 0, 0)`
-                contRef.style.opacity = `${0.9 - (translate / 30)}`
+                contRef.current.style.transform = `translate3d(${translate}%, 0, 0)`
+                contRef.current.style.opacity = `${0.9 - (translate / 30)}`
                 if (translate < 30) window.requestAnimationFrame(hide)
                 else
                 {
@@ -140,8 +140,8 @@ function Switch({children})
             {
                 secondTranslate = secondTranslate + step <= 0 ? secondTranslate + step : 0
                 step = step - 1 >= 1 ? step - 1 : 1
-                contRef.style.transform = `translate3d(${secondTranslate}%, 0, 0)`
-                contRef.style.opacity = `${1 + (secondTranslate / 30)}`
+                contRef.current.style.transform = `translate3d(${secondTranslate}%, 0, 0)`
+                contRef.current.style.opacity = `${1 + (secondTranslate / 30)}`
                 if (secondTranslate < 0) window.requestAnimationFrame(showNext)
                 else removeProperties(scroll)
             }
@@ -163,8 +163,8 @@ function Switch({children})
             {
                 translate = translate - step >= -30 ? translate - step : -30
                 step = translate - step + 1 >= -30 ? step + 1 : step
-                contRef.style.transform = `translate3d(${translate}%, 0, 0)`
-                contRef.style.opacity = `${0.9 + (translate / 30)}`
+                contRef.current.style.transform = `translate3d(${translate}%, 0, 0)`
+                contRef.current.style.opacity = `${0.9 + (translate / 30)}`
                 if (translate > -30) window.requestAnimationFrame(hide)
                 else
                 {
@@ -183,8 +183,8 @@ function Switch({children})
             {
                 secondTranslate = secondTranslate - step >= 0 ? secondTranslate - step : 0
                 step = step - 1 >= 1 ? step - 1 : 1
-                contRef.style.transform = `translate3d(${secondTranslate}%, 0, 0)`
-                contRef.style.opacity = `${1 - (secondTranslate / 30)}`
+                contRef.current.style.transform = `translate3d(${secondTranslate}%, 0, 0)`
+                contRef.current.style.opacity = `${1 - (secondTranslate / 30)}`
                 if (secondTranslate > 0) window.requestAnimationFrame(showNext)
                 else removeProperties(scroll)
             }
@@ -195,7 +195,7 @@ function Switch({children})
 
     function addProperties()
     {
-        contRef.style.willChange = "transform, opacity"
+        contRef.current.style.willChange = "transform, opacity"
         innerContRef.className = "hide-scroll"
         if (!checkViewPort())
         {
@@ -209,9 +209,9 @@ function Switch({children})
 
     function removeProperties(scroll)
     {
-        contRef.style.removeProperty("will-change")
-        contRef.style.removeProperty("opacity")
-        contRef.style.removeProperty("transform")
+        contRef.current.style.removeProperty("will-change")
+        contRef.current.style.removeProperty("opacity")
+        contRef.current.style.removeProperty("transform")
         innerContRef.className = ""
         if (!checkViewPort())
         {
@@ -229,7 +229,9 @@ function Switch({children})
         else return child
     })
 
-    return (showChildIndex || showChildIndex === 0) && childrenWithProps[showChildIndex] ? childrenWithProps[showChildIndex] : null
+    const output = (showChildIndex || showChildIndex === 0) && childrenWithProps[showChildIndex] ? childrenWithProps[showChildIndex] : null
+    if (notPage) return <div className={className} ref={contRef}>{output}</div>
+    return output
 }
 
 export default Switch

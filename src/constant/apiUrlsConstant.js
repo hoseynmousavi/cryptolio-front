@@ -3,11 +3,9 @@ const apiUrlsConstant = {
     signup: "user/signup",
     getUser: "user/verify",
 
-    getExchanges: "exchange",
-
     userExchange: "user-exchange",
-    kucoinUserExchangeData: "kucoin/data",
-    nobitexUserExchangeData: "nobitex/data",
+
+    getUserExchangesData: "user-exchange-data",
 }
 
 export default apiUrlsConstant

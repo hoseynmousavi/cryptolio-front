@@ -7,9 +7,9 @@ import {ExchangeContext} from "../../context/exchange/ExchangeReducer"
 import numberCorrection from "../../helpers/numberCorrection"
 import exchangeConstant from "../../constant/exchangeConstant"
 
-function AddPortfo({close})
+function AddPortfolio({close})
 {
-    const {state: {supportedExchanges: {list}}, dispatch} = useContext(ExchangeContext)
+    const {state: {exchanges}, dispatch} = useContext(ExchangeContext)
     const [selectedExchange, setSelectedExchange] = useState(null)
     const [values, setValues] = useState({})
     const [isLoading, setIsLoading] = useState(false)
@@ -48,20 +48,20 @@ function AddPortfo({close})
     return (
         !selectedExchange ?
             <VerticalPanel key="add-1" close={close}>
-                <div className="home-side-add-title">افزودن حساب</div>
-                <div className="home-side-add-desc">لطفا صرافی مورد نظرتون رو انتخاب کنید.</div>
+                <div className="add-portfolio-add-title">افزودن حساب</div>
+                <div className="add-portfolio-add-desc">لطفا صرافی مورد نظرتون رو انتخاب کنید.</div>
                 {
-                    Object.values(list).map(item =>
-                        <Button className="home-side-btn" key={item.name} onClick={selectEx(item)}>{item.name}</Button>,
+                    Object.values(exchanges).map(item =>
+                        <Button className="add-portfolio-add-btn" key={item.name} onClick={selectEx(item)}>{item.name}</Button>,
                     )
                 }
             </VerticalPanel>
             :
             <VerticalPanel key="add-2" dontPush close={close}>
-                <div className="home-side-add-title">افزودن حساب</div>
-                <div className="home-side-add-desc">لطفا اطلاعات حساب {selectedExchange.name} خودتون رو وارد کنید.</div>
-                <Input className="home-side-add-input" name="name" onChange={onChange} label="نام حساب" placeholder="نام انتخابی خود را وارد کنید" required noSpace/>
-                <Input className="home-side-add-input"
+                <div className="add-portfolio-add-title">افزودن حساب</div>
+                <div className="add-portfolio-add-desc">لطفا اطلاعات حساب {selectedExchange.name} خودتون رو وارد کنید.</div>
+                <Input className="add-portfolio-add-input" name="name" onChange={onChange} label="نام حساب" placeholder="نام انتخابی خود را وارد کنید" required noSpace/>
+                <Input className="add-portfolio-add-input"
                        name="user_key"
                        onChange={onChange}
                        label={selectedExchange._id === exchangeConstant.kucoinExchangeId ? "Key" : "توکن"}
@@ -72,15 +72,15 @@ function AddPortfo({close})
                 {
                     selectedExchange._id === exchangeConstant.kucoinExchangeId &&
                     <>
-                        <Input className="home-side-add-input" name="user_secret" onChange={onChange} label="Secret" placeholder="لطفا Secret را وارد کنید" required noSpace/>
-                        <Input className="home-side-add-input" name="user_passphrase" onChange={onChange} label="Passphrase" placeholder="لطفا Passphrase را وارد کنید" required noSpace/>
+                        <Input className="add-portfolio-add-input" name="user_secret" onChange={onChange} label="Secret" placeholder="لطفا Secret را وارد کنید" required noSpace/>
+                        <Input className="add-portfolio-add-input" name="user_passphrase" onChange={onChange} label="Passphrase" placeholder="لطفا Passphrase را وارد کنید" required noSpace/>
                     </>
                 }
-                <Button className="home-side-add-submit" disable={disabled} loading={isLoading} onClick={submit}>
+                <Button className="add-portfolio-add-submit" disable={disabled} loading={isLoading} onClick={submit}>
                     ثبت
                 </Button>
             </VerticalPanel>
     )
 }
 
-export default AddPortfo
+export default AddPortfolio

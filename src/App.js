@@ -6,6 +6,7 @@ import LoadingWrapper from "./views/components/LoadingWrapper"
 import urlConstant from "./constant/urlConstant"
 import PrivateRoute from "./helpers/PrivateRoute"
 
+// const LandingPage = lazy(() => import("./views/pages/LandingPage"))
 const Home = lazy(() => import("./views/containers/Home"))
 const LoginPage = lazy(() => import("./views/pages/LoginPage"))
 const SignUpPage = lazy(() => import("./views/pages/SignUpPage"))
@@ -19,7 +20,7 @@ function App({location})
                 <Switch>
                     <PrivateRoute ifNotLogin dontChange path={urlConstant.login} render={() => <LoginPage/>}/>
                     <PrivateRoute ifNotLogin dontChange path={urlConstant.signUp} render={() => <SignUpPage/>}/>
-                    <PrivateRoute path="*" render={() => <Home/>}/>
+                    <PrivateRoute path="*" render={() => <Home location={location}/>}/>
                 </Switch>
             </Suspense>
             <ToastContainer location={location}/>

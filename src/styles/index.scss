@@ -9,7 +9,9 @@
 @import "input";
 @import "vertical-panel";
 @import "login";
-@import "home";
+@import "home-page";
+@import "add-portfolio";
+@import "portfolio";
 
 @font-face {
   font-family: "my-font";
@@ -47,7 +49,7 @@ body {
   }
 }
 
-button, a, input, textarea, h4, h3, h2, h1, select, video, p, track, label, div, header, main, footer, section, svg, img, span {
+button, a, input, textarea, h4, h3, h2, h1, canvas, select, video, p, track, label, div, form, header, main, footer, section, svg, img, span {
   -webkit-appearance: none;
   box-sizing: border-box;
   padding: 0;
@@ -65,7 +67,7 @@ button, a, input, textarea, h4, h3, h2, h1, select, video, p, track, label, div,
   }
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, canvas {
   font-family: my-font-bold, serif;
 }
 
