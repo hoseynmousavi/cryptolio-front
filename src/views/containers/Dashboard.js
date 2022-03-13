@@ -13,7 +13,6 @@ function Dashboard({userExchanges})
 
     return (
         <>
-
             <div className="home-main-name">سلام {user.full_name}</div>
             <div className="home-main-welcome">خوش آمدید!</div>
 

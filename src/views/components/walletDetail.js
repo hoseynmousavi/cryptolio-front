@@ -7,17 +7,17 @@ function WalletDetail({balance, available, profitOrLoss, profitOrLossPercent})
 {
     return (
         <div className="home-main-box">
-            <div className="home-main-box-item">
+            <div>
                 <MoneySvg className="home-main-box-item-icon"/>
                 <div className="home-main-box-item-desc">ارزش دارایی شما</div>
                 <div className="home-main-box-item-title">{showNumber(balance, 0)} دلار</div>
             </div>
-            <div className="home-main-box-item">
+            <div>
                 <ChartSvg className="home-main-box-item-icon"/>
                 <div className="home-main-box-item-desc">دارایی آزاد</div>
                 <div className="home-main-box-item-title">{showNumber(available, 0)} دلار</div>
             </div>
-            <div className="home-main-box-item">
+            <div>
                 <CalculatorSvg className="home-main-box-item-icon"/>
                 <div className="home-main-box-item-desc">سود / زیان</div>
                 <div className="home-main-box-item-title">

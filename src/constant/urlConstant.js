@@ -1,4 +1,6 @@
 const urlConstant = {
+    landing: "/",
+
     home: "/home",
     portfolio: "/portfolio",
     notifications: "/notifications",

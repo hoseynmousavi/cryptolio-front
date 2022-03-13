@@ -18,7 +18,7 @@ function PrivateRoute({ifNotLogin, dontChange, path, render, ...props})
         else
         {
             if (user) return <Route path={path} render={render} {...props}/>
-            else return <Redirect to={urlConstant.login}/>
+            else return <Redirect to={urlConstant.landing}/>
         }
         // eslint-disable-next-line
     }, dontChange ? [render] : [user, render])

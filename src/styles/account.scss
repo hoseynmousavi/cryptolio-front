@@ -1,0 +1,36 @@
+.account-plans {
+  display: flex;
+  padding: calc(2 * var(--mobile-second-solid-padding)) 0;
+}
+
+.account-plans-item {
+  background-color: var(--first-background-color);
+  width: 33%;
+  flex-grow: 1;
+  margin-left: var(--mobile-second-solid-padding);
+  padding: calc(var(--mobile-second-solid-padding));
+  border-radius: var(--second-radius);
+
+  &:last-child {
+    margin-left: 0;
+  }
+}
+
+.account-plans-item-title {
+  font-size: var(--huge-font);
+  font-family: "my-font-bold", serif;
+}
+
+.account-plans-item-desc {
+  margin: 16px 0;
+  font-size: var(--huge-font);
+  color: var(--first-color);
+}
+
+.account-plans-item-text {
+  color: var(--disable-bg-color);
+  margin-bottom: 28px;
+  font-size: var(--title-font);
+  text-align: justify;
+  white-space: pre-line;
+}

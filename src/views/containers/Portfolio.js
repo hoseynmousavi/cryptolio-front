@@ -11,6 +11,9 @@ import createMonthDiagramData from "../../helpers/createMonthDiagramData"
 import AddPortfolio from "../components/AddPortfolio"
 import TrashSvg from "../../media/svg/TrashSvg"
 import createMaterialColor from "../../helpers/createMaterialColor"
+import toastManager from "../../helpers/toastManager"
+import {INFO_TOAST} from "../../constant/toastTypes"
+import toastConstant from "../../constant/toastConstant"
 
 function Portfolio({userExchanges, selectedExchange})
 {
@@ -28,6 +31,12 @@ function Portfolio({userExchanges, selectedExchange})
     function selectExchange(selectedExchange)
     {
         exchangeActions.selectExchange({selectedExchange, dispatch})
+    }
+
+    function removeExchange()
+    {
+        exchangeActions.removeUserExchange({userExchangeId: selectedExchange, dispatch})
+            .then(() => toastManager.addToast({type: INFO_TOAST, message: toastConstant.removeExchangeSuccess}))
     }
 
     return (
@@ -93,7 +102,7 @@ function Portfolio({userExchanges, selectedExchange})
 
             {
                 selectedExchange &&
-                <Material className="portfolio-delete" style={{backgroundColor: createMaterialColor({variable: "--toast-fail-text", alpha: "0.1"})}}>
+                <Material className="portfolio-delete" style={{backgroundColor: createMaterialColor({variable: "--toast-fail-text", alpha: "0.1"})}} onClick={removeExchange}>
                     <div>حذف حساب {name}</div>
                     <TrashSvg className="portfolio-delete-icon"/>
                 </Material>

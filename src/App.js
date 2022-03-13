@@ -5,8 +5,9 @@ import {lazy, Suspense} from "react"
 import LoadingWrapper from "./views/components/LoadingWrapper"
 import urlConstant from "./constant/urlConstant"
 import PrivateRoute from "./helpers/PrivateRoute"
+import Route from "./views/components/Route"
 
-// const LandingPage = lazy(() => import("./views/pages/LandingPage"))
+const LandingPage = lazy(() => import("./views/pages/LandingPage"))
 const Home = lazy(() => import("./views/containers/Home"))
 const LoginPage = lazy(() => import("./views/pages/LoginPage"))
 const SignUpPage = lazy(() => import("./views/pages/SignUpPage"))
@@ -18,6 +19,7 @@ function App({location})
             <ThemeColorBar/>
             <Suspense fallback={<LoadingWrapper key="loading-wrapper"/>}>
                 <Switch>
+                    <Route exact path={urlConstant.landing} render={() => <LandingPage/>}/>
                     <PrivateRoute ifNotLogin dontChange path={urlConstant.login} render={() => <LoginPage/>}/>
                     <PrivateRoute ifNotLogin dontChange path={urlConstant.signUp} render={() => <SignUpPage/>}/>
                     <PrivateRoute path="*" render={() => <Home location={location}/>}/>

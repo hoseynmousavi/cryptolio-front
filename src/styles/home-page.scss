@@ -100,11 +100,6 @@
   }
 }
 
-.home-main-box-item {
-  text-align: right;
-  width: 33%;
-}
-
 .home-main-box-item-icon {
   width: 48px;
   height: 48px;
@@ -120,6 +115,7 @@
   font-size: var(--huge-font);
   display: flex;
   align-items: center;
+  width: 150px;
 }
 
 .home-main-box-item-title-price {

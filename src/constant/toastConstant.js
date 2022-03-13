@@ -7,6 +7,7 @@ const toastConstant = {
     unValidPhone: "شماره تلفن وارد شده معتبر نیست",
     unValidUrl: "آدرس وارد شده معتبر نیست",
     unValidPassword: "پسورد انتخابی باید حداقل ۶ کاراکتر باشد",
+    removeExchangeSuccess: "حذف حساب با موفقیت انجام شد",
     requestCancel: "req_canceled",
 }
 
