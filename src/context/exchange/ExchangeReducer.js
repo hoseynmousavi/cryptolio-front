@@ -22,7 +22,7 @@ function reducer(state, action)
         case GET_EXCHANGES_DATA:
         {
             const {exchanges, user_exchanges} = action.payload
-            const userExchanges = user_exchanges.reduce((sum, item) => ({...sum, [item._id]: item}), {})
+            const userExchanges = user_exchanges.reduce((sum, item) => item.data.status === "fulfilled" ? ({...sum, [item._id]: {...item, data: item.data.value}}) : sum, {})
             const selectedExchange = userExchanges[state.selectedExchange] ? state.selectedExchange : null
             if (selectedExchange) localStorage.setItem("selectedExchange", selectedExchange)
             else localStorage.removeItem("selectedExchange")

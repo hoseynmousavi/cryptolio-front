@@ -1,0 +1,2 @@
+export const GET_SIGNALS = "GET_SIGNALS"
+export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS"

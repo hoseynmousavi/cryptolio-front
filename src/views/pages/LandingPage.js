@@ -15,16 +15,16 @@ function LandingPage()
             <header className="landing-header">
                 <div className="landing-header-title">
                     <ImageShow className="landing-header-img" src={logo}/>
-                    <h1>کریپتولیو</h1>
+                    <h1>کوین‌جت</h1>
                 </div>
                 <div className="landing-header-items">
                     <Material className="landing-header-item">درباره ما</Material>
                     <Material className="landing-header-item">رودمپ</Material>
-                    <Material className="landing-header-item">تیم کریپتولیو</Material>
+                    <Material className="landing-header-item">تیم کوین‌جت</Material>
                     <Material className="landing-header-item">تماس با ما</Material>
                 </div>
                 <Link to={urlConstant.login}>
-                    <Button className="landing-header-btn">ورود به کریپتولیو</Button>
+                    <Button className="landing-header-btn">ورود به کوین‌جت</Button>
                 </Link>
             </header>
             <div className="landing-top">
@@ -50,7 +50,7 @@ function LandingPage()
                             که به ما اعتماد کرده‌اند
                         </div>
                         <div className="landing-platforms-main-text-little">
-                            کریپتولیو با فراهم‌کردن امکان مدیریت تمام حساب‌های رمزارز شما، با ارائه تحلیل‌های داده‌محور از فعالیت شما در این بازار، به سودآوری بیشتر شما کمک می‌کند.
+                            کوین‌جت با فراهم‌کردن امکان مدیریت تمام حساب‌های رمزارز شما، با ارائه تحلیل‌های داده‌محور از فعالیت شما در این بازار، به سودآوری بیشتر شما کمک می‌کند.
                         </div>
                         <Link to={urlConstant.login}>
                             <Button className="landing-header-btn">ورود به داشبورد</Button>
@@ -62,7 +62,7 @@ function LandingPage()
             <div className="landing-stats">
                 <div className="landing-stats-item">
                     <div className="landing-stats-item-count">10,376</div>
-                    <div className="landing-stats-item-title">تعداد کاربران کریپتولیو</div>
+                    <div className="landing-stats-item-title">تعداد کاربران کوین‌جت</div>
                 </div>
                 <div className="landing-stats-item">
                     <div className="landing-stats-item-count">754,123</div>
@@ -77,7 +77,7 @@ function LandingPage()
             <footer className="landing-footer">
                 <div className="landing-header-title">
                     <ImageShow className="landing-header-img" src={logo}/>
-                    <h1>کریپتولیو</h1>
+                    <h1>کوین‌جت</h1>
                 </div>
                 <div className="landing-footer-items">
                     <Material className="landing-footer-item">سوالات متداول</Material>
@@ -85,7 +85,7 @@ function LandingPage()
                     <Material className="landing-footer-item">نقشه سایت</Material>
                     <Material className="landing-footer-item">قوانین و مقررات</Material>
                 </div>
-                <div>.تمامی حقوق متعلق به کریپتولیو است</div>
+                <div>.تمامی حقوق متعلق به کوین‌جت است</div>
             </footer>
         </>
     )

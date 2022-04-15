@@ -6,19 +6,25 @@ import Portfolio from "./Portfolio"
 import Sidebar from "./Sidebar"
 import Account from "./Account"
 import Notifications from "./Notifications"
+import Signals from "./Signals"
 import GetUserExchanges from "../../helpers/GetUserExchanges"
 import LoadingWrapper from "../components/LoadingWrapper"
+import GetSignals from "../../helpers/GetSignals"
+import GetNotifications from "../../helpers/GetNotifications"
 
 function Home({location})
 {
-    const {userExchanges, getDone, selectedExchange} = GetUserExchanges()
-    if (getDone) return (
+    const {userExchanges, getDone: userExchangeGetDone, selectedExchange} = GetUserExchanges()
+    const {list: signals, getDone: signalGetDone} = GetSignals()
+    const {list: notifications, getDone: notificationGetDone} = GetNotifications()
+    if (userExchangeGetDone && signalGetDone && notificationGetDone) return (
         <>
             <Switch notPage className="home-main">
-                <Route exact path={urlConstant.account} render={route => <Account route={route}/>}/>
-                <Route exact path={urlConstant.notifications} render={route => <Notifications route={route}/>}/>
-                <Route exact path={urlConstant.portfolio} render={route => <Portfolio userExchanges={userExchanges} selectedExchange={selectedExchange} route={route}/>}/>
-                <Route path="*" render={route => <Dashboard userExchanges={userExchanges} route={route}/>}/>
+                <Route exact path={urlConstant.account} render={() => <Account/>}/>
+                <Route exact path={urlConstant.signal} render={() => <Signals signals={signals}/>}/>
+                <Route exact path={urlConstant.notifications} render={() => <Notifications notifications={notifications} signals={signals}/>}/>
+                <Route exact path={urlConstant.portfolio} render={() => <Portfolio userExchanges={userExchanges} selectedExchange={selectedExchange}/>}/>
+                <Route path="*" render={() => <Dashboard userExchanges={userExchanges}/>}/>
             </Switch>
             <Sidebar location={location}/>
         </>

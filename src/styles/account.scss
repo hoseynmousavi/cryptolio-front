@@ -1,6 +1,10 @@
 .account-plans {
   display: flex;
   padding: calc(2 * var(--mobile-second-solid-padding)) 0;
+
+  &.signal {
+    display: block;
+  }
 }
 
 .account-plans-item {
@@ -10,6 +14,18 @@
   margin-left: var(--mobile-second-solid-padding);
   padding: calc(var(--mobile-second-solid-padding));
   border-radius: var(--second-radius);
+
+  &.signal {
+    width: 45%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  &.disable {
+    opacity: 0.6;
+    background-color: var(--disable-text-color);
+    cursor: not-allowed;
+  }
 
   &:last-child {
     margin-left: 0;
@@ -25,6 +41,14 @@
   margin: 16px 0;
   font-size: var(--huge-font);
   color: var(--first-color);
+
+  &.signal {
+    font-size: var(--title-font);
+
+    &.disable {
+      color: var(--disable-bg-color);
+    }
+  }
 }
 
 .account-plans-item-text {
@@ -33,4 +57,91 @@
   font-size: var(--title-font);
   text-align: justify;
   white-space: pre-line;
+}
+
+.signal-add-title {
+  margin-top: 60px;
+  font-family: "my-font-bold", serif;
+  font-size: var(--title-font);
+}
+
+.signal-add-percent {
+  display: block;
+  direction: ltr;
+  text-align: left;
+  width: 600px;
+  padding: 12px 16px;
+  background-color: var(--first-background-color);
+  border-radius: var(--first-radius);
+  margin: 16px 0;
+  border: 1px solid var(--first-border-color);
+  font-family: "signal", serif;
+
+  &:placeholder-shown {
+    text-align: right;
+    direction: rtl;
+  }
+}
+
+.signal-add-area {
+  display: block;
+  direction: ltr;
+  text-align: left;
+  width: 600px;
+  height: 300px;
+  padding: 12px 16px;
+  background-color: var(--first-background-color);
+  border-radius: var(--first-radius);
+  resize: none;
+  margin: 16px 0;
+  border: 1px solid var(--first-border-color);
+  font-family: "signal", serif;
+
+  &:placeholder-shown {
+    text-align: right;
+    direction: rtl;
+  }
+}
+
+.signal-add-submit {
+  width: 600px;
+}
+
+.signal-items {
+  margin: 32px 0;
+}
+
+.signal-item-title {
+  font-size: var(--title-font);
+}
+
+.signal-item-text {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.signal-item-text-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 8px;
+  background-color: var(--first-color);
+}
+
+.notif-text {
+  font-size: var(--title-font);
+  font-family: "my-font-bold", serif;
+  display: flex;
+  align-items: center;
+}
+
+.notif-text-signal {
+  color: var(--first-color);
+  margin-left: 8px;
+}
+
+.notif-text-pair {
+  color: var(--second-color);
+  margin-left: 8px;
 }

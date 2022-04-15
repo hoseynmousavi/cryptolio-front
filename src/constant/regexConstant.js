@@ -6,6 +6,13 @@ const regexConstant = {
     ENGLISH_REGEX: /^[a-zA-Z\s]+$/,
     ENGLISH_AND_NUMBERS_REGEX: /^[a-zA-Z0-9\s]+$/,
     URL_REGEX: new RegExp("(^|\\s)(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9@]+([\\-.][A-Za-z0-9@]+)*\\.[A-Za-z]{2,10}(:[0-9]{1,5})?(\\/[^\\s]*)?"),
+
+    emoji: /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/gi,
+    pair: /pair:(\w{3,5})\/(\w{3,5})/,
+    leverage: /leverage:(\d*)/,
+    entry: /entry:(\d|\.|-)*/,
+    target: /target:(\d|\.|-)*/,
+    stop: /stop:(\d|\.)*/,
 }
 
 export default regexConstant

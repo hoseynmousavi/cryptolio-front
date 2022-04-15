@@ -7,6 +7,7 @@ import withRouter from "./views/containers/withRouter"
 import ThemeProvider from "./context/theme/ThemeReducer"
 import AuthProvider from "./context/auth/AuthReducer"
 import ExchangeProvider from "./context/exchange/ExchangeReducer"
+import SignalProvider from "./context/signal/SignalReducer"
 
 const WrappedApp = withRouter(App)
 
@@ -15,7 +16,9 @@ ReactDOM.render(
         <ThemeProvider>
             <AuthProvider>
                 <ExchangeProvider>
-                    <WrappedApp/>
+                    <SignalProvider>
+                        <WrappedApp/>
+                    </SignalProvider>
                 </ExchangeProvider>
             </AuthProvider>
         </ThemeProvider>

@@ -13,26 +13,26 @@ function Account()
 
     return (
         <>
-            <div className="home-main-name">خرید اشتراک کریپتولیو</div>
-            <div className="home-main-welcome">.با خرید اشتراک کریپتولیو، از خدمات ما به صورت کامل استفاده کنید</div>
+            <div className="home-main-name">خرید اشتراک کوین‌جت</div>
+            <div className="home-main-welcome">با خرید اشتراک کوین‌جت، از خدمات ما به صورت کامل استفاده کنید.</div>
 
             <div className="account-plans">
                 <div className="account-plans-item">
                     <div className="account-plans-item-title">اشتراک ۱ ماهه</div>
                     <div className="account-plans-item-desc">۲۵ دلار</div>
-                    <div className="account-plans-item-text">یک ماه استفاده از تمامی خدمات ویژه کریپتولیو</div>
+                    <div className="account-plans-item-text">یک ماه استفاده از تمامی خدمات ویژه کوین‌جت</div>
                     <Button>تمدید اشتراک</Button>
                 </div>
                 <div className="account-plans-item">
                     <div className="account-plans-item-title">اشتراک ۱ ماهه</div>
                     <div className="account-plans-item-desc">۲۵ دلار</div>
-                    <div className="account-plans-item-text">یک ماه استفاده از تمامی خدمات ویژه کریپتولیو</div>
+                    <div className="account-plans-item-text">یک ماه استفاده از تمامی خدمات ویژه کوین‌جت</div>
                     <Button>تمدید اشتراک</Button>
                 </div>
                 <div className="account-plans-item">
                     <div className="account-plans-item-title">اشتراک ۱ ماهه</div>
                     <div className="account-plans-item-desc">۲۵ دلار</div>
-                    <div className="account-plans-item-text">یک ماه استفاده از تمامی خدمات ویژه کریپتولیو</div>
+                    <div className="account-plans-item-text">یک ماه استفاده از تمامی خدمات ویژه کوین‌جت</div>
                     <Button>تمدید اشتراک</Button>
                 </div>
             </div>

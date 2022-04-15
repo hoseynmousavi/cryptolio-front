@@ -3,6 +3,7 @@ const urlConstant = {
 
     home: "/home",
     portfolio: "/portfolio",
+    signal: "/signal",
     notifications: "/notifications",
     account: "/account",
 
