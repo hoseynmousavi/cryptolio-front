@@ -8,6 +8,13 @@ function GetSignals()
     const {state: {signal: {list, getDone}}, dispatch} = useContext(SignalContext)
     const isLoading = !getDone
     const request = useRef(null)
+    const timer = useRef(null)
+
+    useEffect(() =>
+    {
+        timer.current = setInterval(() => SignalActions.getSignals({dispatch, cancel: cancelSource => request.current = cancelSource}), 4000)
+        return () => clearInterval(timer.current)
+    }, [])
 
     useEffect(() =>
     {
