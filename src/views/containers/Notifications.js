@@ -1,5 +1,10 @@
+import {useContext} from "react"
+import {ExchangeContext} from "../../context/exchange/ExchangeReducer"
+
 function Notifications({notifications, signals})
 {
+    const {state: {userExchanges}} = useContext(ExchangeContext)
+
     return (
         <>
             <div className="home-main-name">پیام‌ها</div>
@@ -15,16 +20,23 @@ function Notifications({notifications, signals})
                                 {
                                     const signal = signals.filter(signal => signal._id === item.signal_id)[0]
                                     return (
-                                        <div className="notif-text">
-                                            <div className="signal-item-text-bullet"/>
-                                            <div className="notif-text-signal">
-                                                سیگنال
-                                                {` ${signal._id.slice(0, 3)} `}
+                                        <div key={item._id} className="notif-text">
+                                            <div className="notif-text-main">
+                                                {item.text}
                                             </div>
-                                            <div className="notif-text-pair">
-                                                {signal.pair}
+                                            <div className="notif-text-labels">
+                                                <div className="notif-text-account">
+                                                    حساب
+                                                    {` ${userExchanges[item.user_exchange_id].name} `}
+                                                </div>
+                                                <div className="notif-text-account">
+                                                    سیگنال
+                                                    {` ${signal._id.slice(0, 3)} `}
+                                                </div>
+                                                <div className="notif-text-account">
+                                                    {signal.pair}
+                                                </div>
                                             </div>
-                                            {item.text}
                                         </div>
                                     )
                                 })

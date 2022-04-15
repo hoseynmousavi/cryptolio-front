@@ -14,6 +14,7 @@ function GetSignals()
     {
         timer.current = setInterval(() => SignalActions.getSignals({dispatch, cancel: cancelSource => request.current = cancelSource}), 4000)
         return () => clearInterval(timer.current)
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() =>

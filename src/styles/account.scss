@@ -72,7 +72,7 @@
   width: 600px;
   padding: 12px 16px;
   background-color: var(--first-background-color);
-  border-radius: var(--first-radius);
+  border-radius: var(--second-radius);
   margin: 16px 0;
   border: 1px solid var(--first-border-color);
   font-family: "signal", serif;
@@ -91,7 +91,7 @@
   height: 300px;
   padding: 12px 16px;
   background-color: var(--first-background-color);
-  border-radius: var(--first-radius);
+  border-radius: var(--second-radius);
   resize: none;
   margin: 16px 0;
   border: 1px solid var(--first-border-color);
@@ -131,17 +131,30 @@
 
 .notif-text {
   font-size: var(--title-font);
-  font-family: "my-font-bold", serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--first-background-color);
+  padding: 16px;
+  border-radius: var(--first-radius);
+  margin-bottom: 16px;
+}
+
+.notif-text-main {
+  max-width: 60%;
+}
+
+.notif-text-labels {
   display: flex;
   align-items: center;
 }
 
-.notif-text-signal {
-  color: var(--first-color);
-  margin-left: 8px;
-}
-
-.notif-text-pair {
-  color: var(--second-color);
-  margin-left: 8px;
+.notif-text-account {
+  font-size: var(--small-font);
+  font-family: "my-font", serif;
+  margin-left: 12px;
+  background-color: var(--first-color);
+  padding: 8px 12px;
+  color: var(--solid-dark);
+  border-radius: var(--first-radius);
 }
