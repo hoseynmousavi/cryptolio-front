@@ -26,12 +26,15 @@ function Notifications({notifications, signals})
                                             </div>
                                             <div className="notif-text-labels">
                                                 <div className="notif-text-account">
+                                                    {new Date(item.created_date).toLocaleString("fa-ir")}
+                                                </div>
+                                                <div className="notif-text-account">
                                                     حساب
-                                                    {` ${userExchanges[item.user_exchange_id].name} `}
+                                                    {userExchanges[item.user_exchange_id].name}
                                                 </div>
                                                 <div className="notif-text-account">
                                                     سیگنال
-                                                    {` ${signal._id.slice(0, 3)} `}
+                                                    {signal._id.slice(0, 3)}
                                                 </div>
                                                 <div className="notif-text-account">
                                                     {signal.pair}

@@ -20,7 +20,7 @@ function Portfolio({userExchanges, selectedExchange})
     const {dispatch} = useContext(ExchangeContext)
     const userExchangesArr = Object.values(userExchanges)
     const {name, data: {accounts, balance, diagram, available, profitOrLoss, profitOrLossPercent, withdraws, deposits}} = countData({userExchanges, selectedExchange})
-    const transfers = [...withdraws.map(item => ({...item, type: "withdraw"})), ...deposits.map(item => ({...item, type: "deposit"}))].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+    const transfers = [...withdraws.map(item => ({...item, type: "withdraw"})), ...deposits.map(item => ({...item, type: "deposit"}))].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     const [addingPortfolio, setAddingPortfolio] = useState(false)
 
     function togglePortfolio(flag)
