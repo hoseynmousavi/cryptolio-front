@@ -1,7 +1,7 @@
 import {createContext, useEffect, useReducer} from "react"
 import logoutManager from "../../helpers/logoutManager"
 import {LOGOUT} from "../auth/AuthTypes"
-import {ADD_MY_EXCHANGE, DELETE_MY_EXCHANGE, GET_EXCHANGES_DATA, SELECT_EXCHANGE} from "./ExchangeTypes"
+import {ADD_MY_EXCHANGE, DELETE_MY_EXCHANGE, GET_EXCHANGES_DATA, SELECT_EXCHANGE, TOGGLE_DISABLE_SIGNAL} from "./ExchangeTypes"
 import ExchangeActions from "./ExchangeActions"
 
 export const ExchangeContext = createContext(null)
@@ -68,6 +68,14 @@ function reducer(state, action)
                 ...state,
                 userExchanges,
                 selectedExchange,
+            }
+        }
+        case TOGGLE_DISABLE_SIGNAL:
+        {
+            const {is_disable_signal} = action.payload
+            return {
+                ...state,
+                userExchanges: Object.values(state.userExchanges).reduce((sum, item) => ({...sum, [item._id]: {...item, is_disable_signal}}), {}),
             }
         }
         case LOGOUT:

@@ -5,13 +5,18 @@ import checkIfSignal from "../../helpers/checkIfSignal"
 import request from "../../request/request"
 import apiUrlsConstant from "../../constant/apiUrlsConstant"
 import toastManager from "../../helpers/toastManager"
+import {ExchangeContext} from "../../context/exchange/ExchangeReducer"
+import ExchangeActions from "../../context/exchange/ExchangeActions"
 
 function Signals({signals})
 {
     const [percent, setPercent] = useState("")
     const [value, setValue] = useState("")
+    const {dispatch} = useContext(ExchangeContext)
     const {state: {role, _id, full_name}} = useContext(AuthContext)
+    const {state: {userExchanges}} = useContext(ExchangeContext)
     const disable = !checkIfSignal({text: value}) || !(percent && +percent <= 100 && +percent > 0)
+    const isSignalDisable = Object.values(userExchanges).every(item => item.is_disable_signal)
 
     function onChange(e)
     {
@@ -23,6 +28,11 @@ function Signals({signals})
     {
         const {value} = e.target
         setPercent(value)
+    }
+
+    function toggleSignal()
+    {
+        ExchangeActions.toggleDisableSignal({is_disable_signal: !isSignalDisable, dispatch})
     }
 
     function submit()
@@ -80,7 +90,7 @@ function Signals({signals})
                                         </div>
                                         {
                                             signals.map(item =>
-                                                <div className="signal-item-text">
+                                                <div key={item._id} className="signal-item-text">
                                                     <div className="signal-item-text-bullet"/>
                                                     <div>
                                                         سیگنال
@@ -97,7 +107,14 @@ function Signals({signals})
                                         }
                                     </div>
                                 }
-                                <Button>غیر فعال کردن</Button>
+                                <Button onClick={toggleSignal}>
+                                    {
+                                        isSignalDisable ?
+                                            "فعال کردن"
+                                            :
+                                            "غیر فعال کردن"
+                                    }
+                                </Button>
                             </div>
                             <div className="account-plans-item signal disable">
                                 <div className="account-plans-item-title">کانال "تحلیل‌گران کریپتو"</div>

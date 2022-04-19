@@ -1,6 +1,6 @@
 import request from "../../request/request"
 import apiUrlsConstant from "../../constant/apiUrlsConstant"
-import {ADD_MY_EXCHANGE, DELETE_MY_EXCHANGE, GET_EXCHANGES_DATA, SELECT_EXCHANGE} from "./ExchangeTypes"
+import {ADD_MY_EXCHANGE, DELETE_MY_EXCHANGE, GET_EXCHANGES_DATA, SELECT_EXCHANGE, TOGGLE_DISABLE_SIGNAL} from "./ExchangeTypes"
 
 const getUserExchangesData = ({dispatch, cancel}) =>
 {
@@ -46,11 +46,24 @@ const removeUserExchange = ({userExchangeId, dispatch}) =>
         })
 }
 
+const toggleDisableSignal = ({is_disable_signal, dispatch}) =>
+{
+    return request.patch({url: apiUrlsConstant.userExchange, data: {is_disable_signal}})
+        .then(() =>
+        {
+            dispatch({
+                type: TOGGLE_DISABLE_SIGNAL,
+                payload: {is_disable_signal},
+            })
+        })
+}
+
 const ExchangeActions = {
     getUserExchangesData,
     selectExchange,
     addUserExchange,
     removeUserExchange,
+    toggleDisableSignal,
 }
 
 export default ExchangeActions
